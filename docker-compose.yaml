@@ -3,15 +3,28 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+
     ports:
       - 8000:8000
+
+    networks:
+      - nginx
 
   nginx-module:
     build:
       context: ./nginx-module/
       dockerfile: Dockerfile
+
     ports:
       - 443:443
 
     depends_on:
       - gimura-site
+
+    networks:
+      - nginx
+
+networks:
+  nginx:
+    external: true
+    name: nginx
