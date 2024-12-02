@@ -1,0 +1,17 @@
+services:
+  gimura-site:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+
+  nginx-module:
+    build:
+      context: ./nginx-module/
+      dockerfile: Dockerfile
+    ports:
+      - 443:443
+
+    depends_on:
+      - gimura-site
