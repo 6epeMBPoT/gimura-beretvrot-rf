@@ -15,6 +15,6 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: Connect And Pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd gimura-beretvrot-rf && git pull && echo ${{ secrets.SSH_USER_PASSWD }} | sudo -S cp nginx.conf /etc/nginx/sites-enabled/ && echo ${{ secrets.SSH_USER_PASSWD }} | sudo -S systemctl restart nginx gimura-site.service"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH_TO_REPO }} && git pull && echo ${{ secrets.CERTIFICATE }} > ./nginx-module/certificate.pem && echo ${{ secrets.PRIVATEKEY }} > ./nginx-module/privatekey.pem && docker-compose build && systemctl restart ${{ secrets.SSH_COMPOSE_SERVICE }}"
     - name: Cleanup
       run: rm -rf ~/.ssh
